@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expense Tracker</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 500px;
+    margin: 50px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px gray;
+}
+
+h1 {
+    text-align: center;
+}
+
+input {
+    width: 45%;
+    padding: 10px;
+    margin: 5px;
+}
+
+button {
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background: #e8e8e8;
+    padding: 10px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+}
+
+.total {
+    margin-top: 20px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+    <h1>Expense Tracker</h1>
+
+    <input type="text" id="expense-name" placeholder="Expense Name">
+    <input type="number" id="expense-amount" placeholder="Amount">
+    <button onclick="addExpense()">Add Expense</button>
+
+    <h2 class="total">Total Expense: ₹<span id="total">0</span></h2>
+
+    <ul id="expense-list"></ul>
+</div>
+
+<script>
+let totalExpense = 0;
+
+function addExpense() {
+
+    const name = document.getElementById("expense-name").value;
+    const amount = parseFloat(document.getElementById("expense-amount").value);
+
+    if (name === "" || isNaN(amount) || amount <= 0) {
+        alert("Please enter valid expense details");
+        return;
+    }
+
+    const expenseList = document.getElementById("expense-list");
+
+    const li = document.createElement("li");
+
+    li.innerHTML =
+        name + " - ₹" + amount +
+        '<button class="delete-btn" onclick="deleteExpense(this,' + amount + ')">Delete</button>';
+
+    expenseList.appendChild(li);
+
+    totalExpense += amount;
+    document.getElementById("total").innerText = totalExpense;
+
+    document.getElementById("expense-name").value = "";
+    document.getElementById("expense-amount").value = "";
+}
+
+function deleteExpense(button, amount) {
+
+    button.parentElement.remove();
+
+    totalExpense -= amount;
+
+    document.getElementById("total").innerText = totalExpense;
+}
+</script>
+
+</body>
+</html>
